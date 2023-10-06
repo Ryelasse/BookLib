@@ -21,6 +21,8 @@ namespace BookLib
 
         public Book Add(Book book)
         {
+            int newId = books.Count > 0 ? books.Max(b => b.Id) + 1 : 1;
+            book.Id = newId;
             books.Add(book);
             return book;
         }
@@ -32,7 +34,12 @@ namespace BookLib
 
         public Book GetById(int id)
         {
-            throw new NotImplementedException();
+            foreach (Book book in books)
+            {
+                if (book.Id == id) 
+                    return book; 
+            }
+            throw new ArgumentException("Det valgte Id eksisterer ikke");
         }
 
 
@@ -50,7 +57,12 @@ namespace BookLib
 
         public Book GetFilterTitle()
         {
-            throw new NotImplementedException();
+            foreach (var x in books)
+            {
+                if (x.Title != null)
+                    return x;
+            }
+            throw new ArgumentException("Den søgte titel findes ikke");
         }
 
         public Book? Delete(int id)
